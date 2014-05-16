@@ -68,59 +68,33 @@ class Api(
         self.client_key = kwargs.get("client_key", CLIENT_KEY)
         self.client_secret = kwargs.get("client_secret", CLIENT_SECRET)
         self.redirect_url = kwargs.get("redirect_url", REDIRECT_URL)
-        self.access_token = kwargs.get("access_token", None)
+        self.oauth_token = kwargs.get("oauth_token", None)
+        self.oauth_token_secret = kwargs.get("oauth_token_secret", None)
 
     def oauth_request(self):
         url = self.base_url + "oauth/request_token"
         contents = self.post(url, oauth_callback = self.redirect_url)
-        print(contents)
-        return "Tobias"
+        contents = contents.decode("utf-8")
+        contents = appier.parse_qs(contents)
+        self.oauth_token = contents["oauth_token"][0]
+        self.oauth_token_secret = contents["oauth_token_secret"][0]
 
-    def oauth_autorize(self, state = None):
-        self.request_token = self.oauth_request()
-        url = "https://www.twitter.com/dialog/oauth"
+    def oauth_authorize(self, state = None):
+        self.oauth_request()
+        url = self.base_url + "oauth/authorize"
         values = dict(
-            client_id = self.client_id,
-            redirect_uri = self.redirect_url,
-            response_type = "code",
-            scope = " ".join(self.scope)
+            oauth_token = self.oauth_token
         )
-        if state: values["state"] = state
         data = appier.urlencode(values)
         url = url + "?" + data
         return url
 
     def oauth_access(self, code, long = True):
         url = self.base_url + "oauth/access_token"
-        contents = self.post(
-            url,
-            token = False,
-            client_id = self.client_id,
-            client_secret = self.client_secret,
-            grant_type = "authorization_code",
-            redirect_uri = self.redirect_url,
-            code = code
-        )
+        contents = self.post(url)
         contents = contents.decode("utf-8")
         contents = appier.parse_qs(contents)
-        self.access_token = contents["access_token"][0]
-        self.trigger("access_token", self.access_token)
-        if long: self.access_token = self.oauth_long_lived(self.access_token)
-        return self.access_token
-
-    def oauth_long_lived(self, short_token):
-        url = self.base_url + "oauth/access_token"
-        contents = self.post(
-            url,
-            token = False,
-            client_id = self.client_id,
-            client_secret = self.client_secret,
-            grant_type = "fb_exchange_token",
-            redirect_uri = self.redirect_url,
-            fb_exchange_token = short_token,
-        )
-        contents = contents.decode("utf-8")
-        contents = appier.parse_qs(contents)
-        self.access_token = contents["access_token"][0]
-        self.trigger("access_token", self.access_token)
-        return self.access_token
+        self.oauth_token = contents["oauth_token"][0]
+        self.oauth_token_secret = contents["oauth_token_secret"][0]
+        self.trigger("oauth_token", self.oauth_token)
+        return self.oauth_token
