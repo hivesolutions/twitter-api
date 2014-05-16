@@ -48,7 +48,7 @@ class TwitterApp(appier.WebApp):
 
     @appier.route("/", "GET")
     def index(self):
-        return self.search()
+        return self.me()
 
     @appier.route("/me", "GET")
     def me(self):

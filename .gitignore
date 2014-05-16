@@ -2,3 +2,6 @@
 *.debug
 
 session.shelve*
+
+/dist/
+/src/twitter_api.egg-info/
