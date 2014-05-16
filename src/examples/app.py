@@ -79,7 +79,7 @@ class TwitterApp(appier.WebApp):
         access_token = self.session.get("twitter.access_token", None)
         if access_token: return
         api = base.get_api()
-        return api.oauth_autorize()
+        return api.oauth_authorize()
 
     def get_api(self):
         access_token = self.session and self.session.get("twitter.access_token", None)
