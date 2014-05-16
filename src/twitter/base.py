@@ -39,7 +39,9 @@ __license__ = "GNU General Public License (GPL), Version 3"
 
 import appier
 
+from twitter import search
 from twitter import account
+from twitter import streaming
 
 BASE_URL = "https://api.twitter.com/"
 """ The default base url to be used when no other
@@ -59,7 +61,9 @@ in case none is provided to the api (client) """
 
 class Api(
     appier.OAuth1Api,
-    account.AccountApi
+    search.SearchApi,
+    account.AccountApi,
+    streaming.StreamingApi
 ):
 
     def __init__(self, *args, **kwargs):

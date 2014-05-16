@@ -48,7 +48,7 @@ class TwitterApp(appier.WebApp):
 
     @appier.route("/", "GET")
     def index(self):
-        return self.me()
+        return self.search()
 
     @appier.route("/me", "GET")
     def me(self):
@@ -58,12 +58,29 @@ class TwitterApp(appier.WebApp):
         account = api.verify_account()
         return account
 
+    @appier.route("/streaming", "GET")
+    def streaming(self):
+        url = self.ensure_api()
+        if url: return self.redirect(url)
+        api = self.get_api()
+        streaming = api.user_streaming()
+        return streaming
+
+    @appier.route("/search", "GET")
+    def search(self):
+        url = self.ensure_api()
+        if url: return self.redirect(url)
+        query = self.field("query", "Hive")
+        api = self.get_api()
+        results = api.search(query)
+        return results
+
     @appier.route("/oauth", "GET")
     def oauth(self):
         oauth_verifier = self.field("oauth_verifier")
         api = self.get_api()
         oauth_token, oauth_token_secret = api.oauth_access(oauth_verifier)
-        self.session["tw.access_token"] = oauth_token
+        self.session["tw.oauth_token"] = oauth_token
         self.session["tw.oauth_token_secret"] = oauth_token_secret
         return self.redirect(
             self.url_for("twitter.index")
