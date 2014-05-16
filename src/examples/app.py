@@ -55,36 +55,44 @@ class TwitterApp(appier.WebApp):
         url = self.ensure_api()
         if url: return self.redirect(url)
         api = self.get_api()
-        user = api.self_user()
-        return user
+        account = api.verify_account()
+        return account
 
     @appier.route("/oauth", "GET")
     def oauth(self):
-        code = self.field("code")
+        oauth_verifier = self.field("oauth_verifier")
         api = self.get_api()
-        access_token = api.oauth_access(code)
-        self.session["twitter.access_token"] = access_token
+        oauth_token, oauth_token_secret = api.oauth_access(oauth_verifier)
+        self.session["tw.access_token"] = oauth_token
+        self.session["tw.oauth_token_secret"] = oauth_token_secret
         return self.redirect(
             self.url_for("twitter.index")
         )
 
     @appier.exception_handler(appier.OAuthAccessError)
     def oauth_error(self, error):
-        if "twitter.access_token" in self.session: del self.session["twitter.access_token"]
+        if "tw.oauth_token" in self.session: del self.session["tw.oauth_token"]
+        if "tw.oauth_token_secret" in self.session: del self.session["tw.oauth_token_secret"]
         return self.redirect(
             self.url_for("twitter.index")
         )
 
     def ensure_api(self):
-        access_token = self.session.get("twitter.access_token", None)
-        if access_token: return
+        oauth_token = self.session.get("tw.oauth_token", None)
+        oauth_token_secret = self.session.get("tw.oauth_token_secret", None)
+        if oauth_token and oauth_token_secret: return
         api = base.get_api()
-        return api.oauth_authorize()
+        url = api.oauth_authorize()
+        self.session["tw.oauth_token"] = api.oauth_token
+        self.session["tw.oauth_token_secret"] = api.oauth_token_secret
+        return url
 
     def get_api(self):
-        access_token = self.session and self.session.get("twitter.access_token", None)
+        oauth_token = self.session and self.session.get("tw.oauth_token", None)
+        oauth_token_secret = self.session and self.session.get("tw.oauth_token_secret", None)
         api = base.get_api()
-        api.access_token = access_token
+        api.oauth_token = oauth_token
+        api.oauth_token_secret = oauth_token_secret
         return api
 
 if __name__ == "__main__":

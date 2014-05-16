@@ -39,7 +39,7 @@ __license__ = "GNU General Public License (GPL), Version 3"
 
 import appier
 
-from twitter import user
+from twitter import account
 
 BASE_URL = "https://api.twitter.com/"
 """ The default base url to be used when no other
@@ -59,7 +59,7 @@ in case none is provided to the api (client) """
 
 class Api(
     appier.OAuth1Api,
-    user.UserApi
+    account.AccountApi
 ):
 
     def __init__(self, *args, **kwargs):
@@ -89,12 +89,14 @@ class Api(
         url = url + "?" + data
         return url
 
-    def oauth_access(self, code, long = True):
+    def oauth_access(self, oauth_verifier = None):
         url = self.base_url + "oauth/access_token"
-        contents = self.post(url)
+        kwargs = dict()
+        if oauth_verifier: kwargs["oauth_verifier"] = oauth_verifier
+        contents = self.post(url, **kwargs)
         contents = contents.decode("utf-8")
         contents = appier.parse_qs(contents)
         self.oauth_token = contents["oauth_token"][0]
         self.oauth_token_secret = contents["oauth_token_secret"][0]
         self.trigger("oauth_token", self.oauth_token)
-        return self.oauth_token
+        return (self.oauth_token, self.oauth_token_secret)

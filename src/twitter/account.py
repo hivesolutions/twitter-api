@@ -37,9 +37,9 @@ __copyright__ = "Copyright (c) 2008-2014 Hive Solutions Lda."
 __license__ = "GNU General Public License (GPL), Version 3"
 """ The license for the module """
 
-class UserApi(object):
+class AccountApi(object):
 
-    def self_user(self):
-        url = self.base_url + "me"
+    def verify_account(self):
+        url = self.base_url + "account/verify_credentials"
         contents = self.get(url)
         return contents
