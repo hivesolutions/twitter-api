@@ -39,7 +39,7 @@ __license__ = "GNU General Public License (GPL), Version 3"
 
 class SearchApi(object):
 
-    def search(self, query):
-        url = self.base_url + "search.json"
+    def tweets_search(self, query):
+        url = self.base_url + "1.1/search/tweets.json"
         contents = self.get(url, q = query)
         return contents

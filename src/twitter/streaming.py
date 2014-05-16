@@ -40,6 +40,6 @@ __license__ = "GNU General Public License (GPL), Version 3"
 class StreamingApi(object):
 
     def user_streaming(self):
-        url = self.base_url + "user.json"
+        url = self.base_url + "1.1/user.json"
         contents = self.get(url)
         return contents

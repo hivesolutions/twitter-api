@@ -40,6 +40,6 @@ __license__ = "GNU General Public License (GPL), Version 3"
 class AccountApi(object):
 
     def verify_account(self):
-        url = self.base_url + "account/verify_credentials.json"
+        url = self.base_url + "1.1/account/verify_credentials.json"
         contents = self.get(url)
         return contents
