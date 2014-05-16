@@ -39,8 +39,6 @@ __license__ = "GNU General Public License (GPL), Version 3"
 
 import appier
 
-import twitter
-
 from examples import base
 
 class TwitterApp(appier.WebApp):
@@ -65,26 +63,26 @@ class TwitterApp(appier.WebApp):
         code = self.field("code")
         api = self.get_api()
         access_token = api.oauth_access(code)
-        self.session["fb.access_token"] = access_token
+        self.session["twitter.access_token"] = access_token
         return self.redirect(
             self.url_for("twitter.index")
         )
 
-    @appier.exception_handler(twitter.OAuthAccessError)
+    @appier.exception_handler(appier.OAuthAccessError)
     def oauth_error(self, error):
-        if "fb.access_token" in self.session: del self.session["fb.access_token"]
+        if "twitter.access_token" in self.session: del self.session["twitter.access_token"]
         return self.redirect(
             self.url_for("twitter.index")
         )
 
     def ensure_api(self):
-        access_token = self.session.get("fb.access_token", None)
+        access_token = self.session.get("twitter.access_token", None)
         if access_token: return
         api = base.get_api()
         return api.oauth_autorize()
 
     def get_api(self):
-        access_token = self.session and self.session.get("fb.access_token", None)
+        access_token = self.session and self.session.get("twitter.access_token", None)
         api = base.get_api()
         api.access_token = access_token
         return api
