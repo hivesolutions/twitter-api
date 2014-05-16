@@ -40,7 +40,6 @@ __license__ = "GNU General Public License (GPL), Version 3"
 import appier
 
 from twitter import user
-from twitter import errors
 
 BASE_URL = "https://api.twitter.com/"
 """ The default base url to be used when no other
@@ -59,49 +58,26 @@ REDIRECT_URL = "http://localhost:8080/oauth"
 in case none is provided to the api (client) """
 
 class Api(
-    appier.Api,
+    appier.OAuth1Api,
     user.UserApi
 ):
 
     def __init__(self, *args, **kwargs):
-        appier.Api.__init__(self, *args, **kwargs)
+        appier.OAuth1Api.__init__(self, *args, **kwargs)
         self.base_url = kwargs.get("base_url", BASE_URL)
         self.client_key = kwargs.get("client_key", CLIENT_KEY)
         self.client_secret = kwargs.get("client_secret", CLIENT_SECRET)
         self.redirect_url = kwargs.get("redirect_url", REDIRECT_URL)
         self.access_token = kwargs.get("access_token", None)
 
-    def request(self, method, *args, **kwargs):
-        try: result = method(*args, **kwargs)
-        except appier.exceptions.HTTPError:
-            raise errors.OAuthAccessError(
-                "Problems using access token found must re-authorize"
-            )
-            raise
-
-        return result
-
-    def build_kwargs(self, kwargs, token = True):
-        if token: kwargs["access_token"] = self.get_access_token()
-
-    def get_access_token(self):
-        if self.access_token: return self.access_token
-        raise errors.OAuthAccessError(
-            "No access token found must re-authorize"
-        )
-
     def oauth_request(self):
         url = self.base_url + "oauth/request_token"
-        contents = self.post(
-            url,
-            token = False,
-            oauth_consumer_key = self.client_key,
-            oauth_callback = self.redirect_url,
-            oauth_signature_method = ""
-            oauth_version = "1.0"
-        )
+        contents = self.post(url, oauth_callback = self.redirect_url)
+        print(contents)
+        return "Tobias"
 
     def oauth_autorize(self, state = None):
+        self.request_token = self.oauth_request()
         url = "https://www.twitter.com/dialog/oauth"
         values = dict(
             client_id = self.client_id,
