@@ -90,5 +90,5 @@ class TwitterApp(appier.WebApp):
         return api
 
 if __name__ == "__main__":
-    app =TwitterkApp()
+    app = TwitterApp()
     app.serve()
