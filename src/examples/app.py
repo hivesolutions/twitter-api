@@ -72,7 +72,7 @@ class TwitterApp(appier.WebApp):
         if url: return self.redirect(url)
         query = self.field("query", "Hive")
         api = self.get_api()
-        results = api.search(query)
+        results = api.tweets_search(query)
         return results
 
     @appier.route("/oauth", "GET")
