@@ -47,7 +47,11 @@ BASE_URL = "https://api.twitter.com/"
 base url value is provided to the constructor """
 
 CLIENT_KEY = None
-""" The key (secret) value to be used for situations where
+""" The default value to be used for the client key
+in case no client key is provided to the api client """
+
+CLIENT_SECRET = None
+""" The secret value to be used for situations where
 no client secret has been provided to the client """
 
 REDIRECT_URL = "http://localhost:8080/oauth"
@@ -63,6 +67,7 @@ class Api(
         appier.Api.__init__(self, *args, **kwargs)
         self.base_url = kwargs.get("base_url", BASE_URL)
         self.client_key = kwargs.get("client_key", CLIENT_KEY)
+        self.client_secret = kwargs.get("client_secret", CLIENT_SECRET)
         self.redirect_url = kwargs.get("redirect_url", REDIRECT_URL)
         self.access_token = kwargs.get("access_token", None)
 
@@ -78,44 +83,6 @@ class Api(
 
     def build_kwargs(self, kwargs, token = True):
         if token: kwargs["access_token"] = self.get_access_token()
-
-    def get(self, url, token = True, **kwargs):
-        self.build_kwargs(kwargs, token = token)
-        return self.request(
-            appier.get,
-            url,
-            params = kwargs
-        )
-
-    def post(self, url, token = True, data = None, data_j = None, data_m = None, **kwargs):
-        self.build_kwargs(kwargs, token = token)
-        return self.request(
-            appier.post,
-            url,
-            params = kwargs,
-            data = data,
-            data_j = data_j,
-            data_m = data_m
-        )
-
-    def put(self, url, token = True, data = None, data_j = None, data_m = None, **kwargs):
-        self.build_kwargs(kwargs, token = token)
-        return self.request(
-            appier.put,
-            url,
-            params = kwargs,
-            data = data,
-            data_j = data_j,
-            data_m = data_m
-        )
-
-    def delete(self, url, token = True, **kwargs):
-        self.build_kwargs(kwargs, token = token)
-        return self.request(
-            appier.delete,
-            url,
-            params = kwargs
-        )
 
     def get_access_token(self):
         if self.access_token: return self.access_token
