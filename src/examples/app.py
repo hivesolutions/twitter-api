@@ -120,9 +120,9 @@ class TwitterApp(appier.WebApp):
         self.tokens(None, None, temporary = True)
 
     def delete(self):
-        if "fk.oauth_token" in self.session: del self.session["fk.oauth_token"]
-        if "fk.oauth_token_secret" in self.session: del self.session["fk.oauth_token_secret"]
-        if "fk.oauth_temporary" in self.session: del self.session["fk.oauth_temporary"]
+        if "tw.oauth_token" in self.session: del self.session["tw.oauth_token"]
+        if "tw.oauth_token_secret" in self.session: del self.session["tw.oauth_token_secret"]
+        if "tw.oauth_temporary" in self.session: del self.session["tw.oauth_temporary"]
 
 if __name__ == "__main__":
     app = TwitterApp()
