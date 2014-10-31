@@ -81,7 +81,7 @@ class Api(
         if state: redirect_url += "?state=%s" % appier.quote(state, safe = "~")
         contents = self.post(url, oauth_callback = redirect_url)
         contents = contents.decode("utf-8")
-        contents = appier.parse_qs(contents)
+        contents = appier.legacy.parse_qs(contents)
         self.oauth_token = contents["oauth_token"][0]
         self.oauth_token_secret = contents["oauth_token_secret"][0]
 
@@ -91,7 +91,7 @@ class Api(
         values = dict(
             oauth_token = self.oauth_token
         )
-        data = appier.urlencode(values)
+        data = appier.legacy.urlencode(values)
         url = url + "?" + data
         return url
 
@@ -101,7 +101,7 @@ class Api(
         if oauth_verifier: kwargs["oauth_verifier"] = oauth_verifier
         contents = self.post(url, **kwargs)
         contents = contents.decode("utf-8")
-        contents = appier.parse_qs(contents)
+        contents = appier.legacy.parse_qs(contents)
         self.oauth_token = contents["oauth_token"][0]
         self.oauth_token_secret = contents["oauth_token_secret"][0]
         self.trigger("oauth_token", self.oauth_token)
