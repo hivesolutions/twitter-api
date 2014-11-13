@@ -39,9 +39,9 @@ __license__ = "GNU General Public License (GPL), Version 3"
 
 import appier
 
-from twitter import search
-from twitter import account
-from twitter import streaming
+from . import search
+from . import account
+from . import streaming
 
 BASE_URL = "https://api.twitter.com/"
 """ The default base url to be used when no other
