@@ -39,7 +39,7 @@ from . import base
 from . import search
 from . import streaming
 
-from .account import *
-from .base import *
-from .search import *
-from .streaming import *
+from .account import AccountApi
+from .base import Api
+from .search import SearchApi
+from .streaming import StreamingApi
