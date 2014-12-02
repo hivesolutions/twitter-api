@@ -40,6 +40,6 @@ from . import search
 from . import streaming
 
 from .account import AccountApi
-from .base import Api
+from .base import BASE_URL, Api
 from .search import SearchApi
 from .streaming import StreamingApi
