@@ -45,7 +45,7 @@ setuptools.setup(
     version = "0.1.4",
     author = "Hive Solutions Lda.",
     author_email = "development@hive.pt",
-    description = "Twitter API",
+    description = "Twitter API Client",
     license = "GNU General Public License (GPL), Version 3",
     keywords = "twitter api",
     url = "http://twitter_api.hive.pt",
