@@ -43,8 +43,12 @@ from . import base
 
 class TwitterApp(appier.WebApp):
 
-    def __init__(self):
-        appier.WebApp.__init__(self, name = "twitter")
+    def __init__(self, *args, **kwargs):
+        appier.WebApp.__init__(
+            self,
+            name = "twitter",
+            *args, **kwargs
+        )
 
     @appier.route("/", "GET")
     def index(self):
