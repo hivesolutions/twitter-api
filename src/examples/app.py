@@ -131,3 +131,5 @@ class TwitterApp(appier.WebApp):
 if __name__ == "__main__":
     app = TwitterApp()
     app.serve()
+else:
+    __path__ = []
