@@ -48,7 +48,7 @@ setuptools.setup(
     description = "Twitter API Client",
     license = "Apache License, Version 2.0",
     keywords = "twitter api",
-    url = "http://twitter_api.hive.pt",
+    url = "http://twitter-api.hive.pt",
     zip_safe = False,
     packages = [
         "twitter"
