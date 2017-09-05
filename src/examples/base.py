@@ -42,7 +42,7 @@ import appier
 import twitter
 
 def get_api():
-    return twitter.Api(
+    return twitter.API(
         client_key = appier.conf("TWITTER_KEY"),
         client_secret = appier.conf("TWITTER_SECRET"),
         redirect_url = appier.conf("TWITTER_REDIRECT_URL")

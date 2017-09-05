@@ -59,15 +59,15 @@ REDIRECT_URL = "http://localhost:8080/oauth"
 """ The redirect url used as default (fallback) value
 in case none is provided to the api (client) """
 
-class Api(
-    appier.OAuth1Api,
-    search.SearchApi,
-    account.AccountApi,
-    streaming.StreamingApi
+class API(
+    appier.OAuth1API,
+    search.SearchAPI,
+    account.AccountAPI,
+    streaming.StreamingAPI
 ):
 
     def __init__(self, *args, **kwargs):
-        appier.OAuth1Api.__init__(self, *args, **kwargs)
+        appier.OAuth1API.__init__(self, *args, **kwargs)
         self.client_key = appier.conf("TWITTER_KEY", CLIENT_KEY)
         self.client_secret = appier.conf("TWITTER_SECRET", CLIENT_SECRET)
         self.redirect_url = appier.conf("TWITTER_REDIRECT_URL", REDIRECT_URL)
