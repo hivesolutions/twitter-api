@@ -44,8 +44,8 @@ from . import account
 from . import streaming
 
 BASE_URL = "https://api.twitter.com/"
-""" The default base url to be used when no other
-base url value is provided to the constructor """
+""" The default base URL to be used when no other
+base URL value is provided to the constructor """
 
 CLIENT_KEY = None
 """ The default value to be used for the client key
