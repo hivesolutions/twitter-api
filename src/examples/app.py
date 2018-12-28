@@ -79,9 +79,18 @@ class TwitterApp(appier.WebApp):
         results = api.tweets_search(query)
         return results
 
+    @appier.route("/logout", "GET")
+    def logout(self):
+        return self.oauth_error(None)
+
     @appier.route("/oauth", "GET")
     def oauth(self):
         oauth_verifier = self.field("oauth_verifier")
+        appier.verify(
+            oauth_verifier,
+            message = "Invalid OAuth response",
+            exception = appier.OperationalError
+        )
         api = self.get_api()
         oauth_token, oauth_token_secret = api.oauth_access(oauth_verifier)
         self.tokens(oauth_token, oauth_token_secret, temporary = False)
