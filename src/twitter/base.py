@@ -56,7 +56,7 @@ CLIENT_SECRET = None
 no client secret has been provided to the client """
 
 REDIRECT_URL = "http://localhost:8080/oauth"
-""" The redirect url used as default (fallback) value
+""" The redirect URL used as default (fallback) value
 in case none is provided to the api (client) """
 
 class API(
