@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>twitter_api</name>
+	<name>twitter-api</name>
 	<comment></comment>
 	<projects>
 		<project>appier</project>

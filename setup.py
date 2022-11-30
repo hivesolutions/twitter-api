@@ -41,7 +41,7 @@ import os
 import setuptools
 
 setuptools.setup(
-    name = "twitter_api",
+    name = "twitter-api",
     version = "0.1.7",
     author = "Hive Solutions Lda.",
     author_email = "development@hive.pt",
