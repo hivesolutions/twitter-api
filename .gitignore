@@ -5,4 +5,4 @@ session.shelve*
 
 /dist
 /build
-/src/twitter-api.egg-info
+/src/twitter_api.egg-info
