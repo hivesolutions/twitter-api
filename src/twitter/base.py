@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Hive Twitter API
-# Copyright (c) 2008-2020 Hive Solutions Lda.
+# Copyright (c) 2008-2024 Hive Solutions Lda.
 #
 # This file is part of Hive Twitter API.
 #
@@ -22,16 +22,7 @@
 __author__ = "João Magalhães <joamag@hive.pt>"
 """ The author(s) of the module """
 
-__version__ = "1.0.0"
-""" The version of the module """
-
-__revision__ = "$LastChangedRevision$"
-""" The revision number of the module """
-
-__date__ = "$LastChangedDate$"
-""" The last change date of the module """
-
-__copyright__ = "Copyright (c) 2008-2020 Hive Solutions Lda."
+__copyright__ = "Copyright (c) 2008-2024 Hive Solutions Lda."
 """ The copyright for the module """
 
 __license__ = "Apache License, Version 2.0"
@@ -59,11 +50,9 @@ REDIRECT_URL = "http://localhost:8080/oauth"
 """ The redirect URL used as default (fallback) value
 in case none is provided to the API (client) """
 
+
 class API(
-    appier.OAuth1API,
-    search.SearchAPI,
-    account.AccountAPI,
-    streaming.StreamingAPI
+    appier.OAuth1API, search.SearchAPI, account.AccountAPI, streaming.StreamingAPI
 ):
 
     def __init__(self, *args, **kwargs):
@@ -78,30 +67,30 @@ class API(
         self.oauth_token = kwargs.get("oauth_token", None)
         self.oauth_token_secret = kwargs.get("oauth_token_secret", None)
 
-    def oauth_request(self, state = None):
+    def oauth_request(self, state=None):
         url = self.base_url + "oauth/request_token"
         redirect_url = self.redirect_url
-        if state: redirect_url += "?state=%s" % appier.quote(state, safe = "~")
-        contents = self.post(url, oauth_callback = redirect_url)
+        if state:
+            redirect_url += "?state=%s" % appier.quote(state, safe="~")
+        contents = self.post(url, oauth_callback=redirect_url)
         contents = contents.decode("utf-8")
         contents = appier.legacy.parse_qs(contents)
         self.oauth_token = contents["oauth_token"][0]
         self.oauth_token_secret = contents["oauth_token_secret"][0]
 
-    def oauth_authorize(self, state = None):
-        self.oauth_request(state = state)
+    def oauth_authorize(self, state=None):
+        self.oauth_request(state=state)
         url = self.base_url + "oauth/authorize"
-        values = dict(
-            oauth_token = self.oauth_token
-        )
+        values = dict(oauth_token=self.oauth_token)
         data = appier.legacy.urlencode(values)
         url = url + "?" + data
         return url
 
-    def oauth_access(self, oauth_verifier = None):
+    def oauth_access(self, oauth_verifier=None):
         url = self.base_url + "oauth/access_token"
         kwargs = dict()
-        if oauth_verifier: kwargs["oauth_verifier"] = oauth_verifier
+        if oauth_verifier:
+            kwargs["oauth_verifier"] = oauth_verifier
         contents = self.post(url, **kwargs)
         contents = contents.decode("utf-8")
         contents = appier.legacy.parse_qs(contents)

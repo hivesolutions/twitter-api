@@ -28,10 +28,10 @@ __copyright__ = "Copyright (c) 2008-2024 Hive Solutions Lda."
 __license__ = "Apache License, Version 2.0"
 """ The license for the module """
 
+import unittest
 
-class AccountAPI(object):
 
-    def verify_account(self):
-        url = self.base_url + "1.1/account/verify_credentials.json"
-        contents = self.get(url)
-        return contents
+class BaseTest(unittest.TestCase):
+
+    def test_basic(self):
+        self.assertEqual(1 + 1, 2)
