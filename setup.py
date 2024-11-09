@@ -42,7 +42,7 @@ setuptools.setup(
     url="http://twitter-api.hive.pt",
     zip_safe=False,
     packages=["twitter"],
-    test_suite="tutum.test",
+    test_suite="twitter.test",
     package_dir={"": os.path.normpath("src")},
     install_requires=["appier"],
     classifiers=[
