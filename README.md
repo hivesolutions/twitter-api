@@ -1,6 +1,6 @@
 # [Twitter API](http://twitter-api.hive.pt)
 
-Client implementation of the Twitter API.
+Client implementation of the [Twitter](https://twitter.com/) API.
 
 ## License
 
